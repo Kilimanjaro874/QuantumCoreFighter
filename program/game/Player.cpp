@@ -8,7 +8,7 @@ Player::Player() {
 	life = true;
 	machineType = MACHINE_RED;	// èâä˙É}ÉVÉìÅFRed
 	pre_machineType = MACHINE_RED;
-	rad = 0;
+	rad = -tnl::PI/2;
 	hp = PLAYER_INITIAL_HP;
 	lifeNum = PLAYER_INITIAL_LIFENUM;
 	deadPosX = 0;
