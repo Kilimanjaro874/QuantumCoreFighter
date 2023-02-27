@@ -3,14 +3,12 @@
 
 #include "DxLib.h"
 #include "../library/tnl_input.h"
-#include "../game/game_main.h"
-// -- 自作ライブラリ --
-#include "../game/define.h"
-#include "../game/sceneDefine.h"
+#include "../game/gm_main.h"
+#include "../dxlib_ext/dxlib_ext.h"
+
 
 static std::chrono::system_clock::time_point clock_start, clock_end ; 
 static std::chrono::system_clock::time_point fps_clock_start, fps_clock_end;
-bool continueGame = true;
 
 
 // プログラムは WinMain から始まります
@@ -19,10 +17,10 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 {
 
 	// ウィンドウモードで起動
-	ChangeWindowMode( screenFixedFlag ) ;
+	ChangeWindowMode( true ) ;
 
 	// ウィンドウサイズ設定
-	SetGraphMode( WIDTH, HEIGHT, 32 ) ;
+	SetGraphMode(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, 32 ) ;
 
 	// ＤＸライブラリ初期化処理
 	if( DxLib_Init() == -1 )		
@@ -37,13 +35,11 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	// キー入力制御の初期化
 	HWND hWnd = GetMainWindowHandle();
-	tnl::Input::Initialize(hInstance,hWnd);
-
-	// ウィンドウが非アクティブでも処理続行
-	SetAlwaysRunFlag(TRUE);
+	HDC hdc = GetDC(hWnd);
+	tnl::Input::Initialize(hInstance,hWnd, hdc, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
 
 	// メッセージループ
-	while( continueGame )
+	while( 1 )
 	{
 		// フレーム間の経過時間
 		// マイクロ秒で計測して秒に変換
@@ -53,7 +49,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		clock_start = clock_end;
 
 		if( ProcessMessage() == -1 ){
-			break;
+			break ;
 		}
 
 		fps_clock_start = std::chrono::system_clock::now();
@@ -65,9 +61,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		tnl::Input::Update();
 
 		// ゲームメインルーチン
-		if (!gameMain(delta_time)) {
-			continueGame = false;
-		}
+		gameMain(delta_time);
 
 		// バックバッファをフリップ
 		ScreenFlip() ;
@@ -87,10 +81,13 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	}
 
+	// ゲーム側の終了処理
+	gameEnd();
+
+	ReleaseDC(hWnd, hdc);
+
 	// ＤＸライブラリ使用の終了処理
 	DxLib_End() ;			
-	gameEnd();
-	endGame();
 
 	// ソフトの終了
 	return 0 ;				 

@@ -16,6 +16,7 @@ namespace tnl {
 			const tnl::Vector3& top_color,
 			const tnl::Vector3& bottom_color) {
 
+
 		// フォントハンドルの生成
 		int fontSize = font_size;
 		int fontWeight = 1000;
@@ -34,7 +35,9 @@ namespace tnl {
 			FIXED_PITCH | FF_MODERN,
 			TEXT("")
 		};
-		memcpy(lf.lfFaceName, buff, sizeof(wchar_t) * 32);
+
+		memcpy(lf.lfFaceName, buff, sizeof(lf.lfFaceName));
+
 		HFONT hFont = CreateFontIndirect(&lf);
 
 
@@ -47,6 +50,7 @@ namespace tnl {
 		const wchar_t* c = &once;
 		UINT code = (UINT)*c;
 
+
 		TEXTMETRIC tm;
 		GetTextMetrics(hdc, &tm);
 		GLYPHMETRICS gm;
@@ -56,6 +60,7 @@ namespace tnl {
 		BYTE* pMono = new BYTE[size];
 
 		GetGlyphOutlineW(hdc, code, GGO_GRAY4_BITMAP, &gm, size, pMono, &mat);
+
 
 		// 文字の幅と高さ
 		int str_width = gm.gmCellIncX;
@@ -85,6 +90,7 @@ namespace tnl {
 
 		char* pTexBuf = new char[tex_width * tex_height * 4] ;
 		memset(pTexBuf, 0, tex_width * tex_height * 4);
+
 
 		// 空白対応
 		wchar_t pwc[2] = { once, 0 };
@@ -123,6 +129,8 @@ namespace tnl {
 		memset(pFrame2, 0, str_width * str_height * 4);
 		memset(pFrame3, 0, str_width * str_height * 4);
 		memset(pFrame4, 0, str_width * str_height * 4);
+
+
 
 		tnl::Vector3 color;
 		tnl::Vector3 csub = bottom_color - top_color;

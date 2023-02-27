@@ -58,7 +58,7 @@ namespace tnl {
 
 		if (!tnl::IsIntersectRect(a_now, a_rect_size_w, a_rect_size_h, b, b_rect_size_w, b_rect_size_h)) return NO_HIT;
 
-		tnl::Vector3 a_near = tnl::GetNearestRectPoint(a_prev, a_rect_size_w, a_rect_size_h, b);
+		tnl::Vector3 a_near = tnl::GetNearestRectPoint(a_prev, (float)a_rect_size_w, (float)a_rect_size_h, b);
 		int n = tnl::GetRegionPointAndRect(a_near, b, b_rect_size_w, b_rect_size_h);
 
 		if (0 == n) {
@@ -156,18 +156,18 @@ namespace tnl {
 	}
 
 	//----------------------------------------------------------------------------------------------
-	bool IsIntersectLinePlane(const tnl::Vector3 &line_start, const tnl::Vector3 &line_end, const tnl::Vector3 &plane_pos, const tnl::Vector3 &plane_normal, tnl::Vector3 &intersect_position) {
+	bool IsIntersectLinePlane(const tnl::Vector3 &line_start, const tnl::Vector3 &line_end, const tnl::Vector3 &plane_pos, const tnl::Vector3 &plane_normal, tnl::Vector3 *intersect_position) {
 
-		if (1 == GetSidesPointAndPlane(line_start, plane_pos, plane_normal) && 1 == GetSidesPointAndPlane(line_end, plane_pos, plane_normal)) return false;
-		if (-1 == GetSidesPointAndPlane(line_start, plane_pos, plane_normal) && -1 == GetSidesPointAndPlane(line_end, plane_pos, plane_normal)) return false;
+		if (1 == GetSidesPointAndPlane(line_start, plane_normal, plane_pos) && 1 == GetSidesPointAndPlane(line_end, plane_normal, plane_pos)) return false;
+		if (-1 == GetSidesPointAndPlane(line_start, plane_normal, plane_pos) && -1 == GetSidesPointAndPlane(line_end, plane_normal, plane_pos)) return false;
 
 		tnl::Vector3 ln = line_end - line_start;
 		tnl::Vector3 pa = line_start - plane_pos;
 		tnl::Vector3 pb = line_end - plane_pos;
-		float na = fabs(pa.dot(plane_normal));
-		float nb = fabs(pb.dot(plane_normal));
+		float na = fabsf(pa.dot(plane_normal));
+		float nb = fabsf(pb.dot(plane_normal));
 
-		intersect_position = line_start + ln * (na / (na + nb));
+		if(intersect_position) *intersect_position = line_start + ln * (na / (na + nb));
 
 		return true;
 	}

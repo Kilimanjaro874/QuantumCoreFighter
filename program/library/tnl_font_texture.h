@@ -22,6 +22,9 @@ namespace tnl {
 	// tuple [ 2 : テクスチャの高さ ]
 	// tuple [ 3 : 文字の幅 ]
 	// tuple [ 4 : 文字の高さ ]
+	// tips... 使用例
+	// auto tex1 = tnl::CreateFontTexture(32, tnl::ToOnceWChara("あ"));
+	//
 	std::tuple<std::shared_ptr<char>, uint32_t, uint32_t, uint32_t, uint32_t>
 		CreateFontTexture(
 			const uint32_t font_size,

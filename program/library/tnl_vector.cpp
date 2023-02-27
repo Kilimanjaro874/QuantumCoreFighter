@@ -12,7 +12,7 @@ namespace tnl {
 	const Vector3 Vector3::left		= {-1,  0,  0 };
 	const Vector3 Vector3::right	= { 1,  0,  0 };
 	const Vector3 Vector3::up		= { 0,  1,  0 };
-	const Vector3 Vector3::donw		= { 0, -1,  0 };
+	const Vector3 Vector3::down		= { 0, -1,  0 };
 
 	const Vector3 Vector3::axis[static_cast<uint32_t>(eAxis::MAX)] = {
 		Vector3::front,
@@ -20,12 +20,12 @@ namespace tnl {
 		Vector3::left,
 		Vector3::right,
 		Vector3::up,
-		Vector3::donw
+		Vector3::down
 	};
 
 	//-----------------------------------------------------------------------------------------------------
-	Vector3 Vector3::AlongPlane(const tnl::Vector3& v, const tnl::Vector3& pn) noexcept {
-		tnl::Vector3 c = tnl::Vector3::Cross(v, pn);
+	Vector3 Vector3::AlongPlane(const tnl::Vector3& in, const tnl::Vector3& pn) noexcept {
+		tnl::Vector3 c = tnl::Vector3::Cross(in, pn);
 		tnl::Vector3 along = tnl::Vector3::Cross(pn, c);
 		return Normalize(along);
 	}
@@ -96,7 +96,7 @@ namespace tnl {
 	}
 
 	//-----------------------------------------------------------------------------------------------------
-	Vector3 Vector3::CovertToScreen(const Vector3& v, const float screen_w, const float screen_h, const Matrix& view, const Matrix& proj) noexcept {
+	Vector3 Vector3::ConvertToScreen(const Vector3& v, const float screen_w, const float screen_h, const Matrix& view, const Matrix& proj) noexcept {
 
 		Vector3 rv(0, 0, 0);
 		float w = screen_h * 0.5f;

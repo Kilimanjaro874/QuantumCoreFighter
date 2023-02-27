@@ -145,6 +145,12 @@ namespace tnl {
 		ToWChara( wstrDest, buff, wstr_lenght );
 	}
 
+	wchar_t ToOnceWChara(const char* strSrc) {
+		wchar_t buff[2];
+		tnl::ToWChara(buff, strSrc, 2);
+		return buff[0];
+	}
+
 
 	int SpaceBit32(int n) {
 		n = (n | (n << 8)) & 0x00ff00ff;

@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(disable:4005)
 #define DIRECTINPUT_VERSION 0x800
 #include <dinput.h>
 #include <dinputd.h>
@@ -174,7 +175,7 @@ namespace tnl {
 
 
 		// 初期化
-		static void Initialize(HINSTANCE hinstance, HWND hwnd);
+		static void Initialize(HINSTANCE hinstance, HWND hwnd, HDC hdc, uint32_t window_w, uint32_t window_h);
 		// 更新
 		static void Update();
 		// 解放
@@ -429,7 +430,7 @@ namespace tnl {
 		static bool IsMouseTrigger(eMouseTrigger _mouse);
 
 		// マウス座標の取得
-		static POINT GetMousePosition();
+		static tnl::Vector3 GetMousePosition();
 		// マウスホイールの変化量を取得
 		static int32_t GetMouseWheel();
 
@@ -437,7 +438,10 @@ namespace tnl {
 		Input() {}
 
 		static HWND hwnd_;
+		static HDC hdc_;
 		static HINSTANCE hinstance_;
+		static uint32_t window_w_;
+		static uint32_t window_h_;
 		static LPDIRECTINPUTDEVICE8 key_;
 		static LPDIRECTINPUTDEVICE8 mouse_;
 		static LPDIRECTINPUTDEVICE8 joystick_ ;

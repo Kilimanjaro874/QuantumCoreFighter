@@ -11,6 +11,7 @@
 #include "tnl_using.h"
 #include "tnl_hierarchy_tree.h"
 
+#if 0 // íœ—\’è
 namespace tnl {
 
 /*
@@ -59,7 +60,6 @@ int main()
     // json ‘€ìƒNƒ‰ƒX
     // 
     //
-
     class Json final : public tnl::hierarchy_tree {
     public:
         Json() {}
@@ -114,3 +114,4 @@ int main()
 
 }
 
+#endif

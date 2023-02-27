@@ -1,3 +1,4 @@
+#if 0 // íœ—\’è
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -24,7 +25,7 @@ namespace tnl {
                 // ‰üs‚Íc‚·ˆ—
                 int count = 0;
                 const char* pc = str.c_str() + posOfBlockHead;
-                for (int i = 0; i < (posOfTail - posOfBlockHead + 2); i++) {
+                for (size_t i = 0; i < (posOfTail - posOfBlockHead + 2); i++) {
                     if ((*(pc + i)) == '\n') count++;
                 }
                 for (int i = 0; i < count; i++) {
@@ -159,8 +160,8 @@ namespace tnl {
             // error
             return nullptr;
         }
-        buff = new char[ file_size ];
-        fread_s(buff, file_size, file_size, 1, fp);
+        buff = new char[ (uint32_t)file_size ];
+        fread_s(buff, (size_t)file_size, (size_t)file_size, 1, fp);
         fclose(fp);
 
         picojson::value v;
@@ -222,3 +223,4 @@ namespace tnl {
 
 }
 
+#endif

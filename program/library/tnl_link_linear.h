@@ -125,8 +125,8 @@ void gameMain(float deltatime) {
             if (p1->getPrev() && p1 != s && comp_vlue(p1) >= pivot) p1 = p1->getPrev();
             else if (p2->getNext() && p2 != e) p2 = p2->getNext();
 
-            new_front = sort_ascending(old_front, s, p1, comp_vlue);
-            new_front = sort_ascending(old_front, p2, e, comp_vlue);
+            new_front = Sort_ascending(old_front, s, p1, comp_vlue);
+            new_front = Sort_ascending(old_front, p2, e, comp_vlue);
 
             return new_front;
         }
@@ -161,8 +161,8 @@ void gameMain(float deltatime) {
             if (p1->getPrev() && p1 != s && comp_vlue(p1) <= pivot) p1 = p1->getPrev();
             else if (p2->getNext() && p2 != e) p2 = p2->getNext();
 
-            new_front = sort_descending(old_front, s, p1, comp_vlue);
-            new_front = sort_descending(old_front, p2, e, comp_vlue);
+            new_front = Sort_descending(old_front, s, p1, comp_vlue);
+            new_front = Sort_descending(old_front, p2, e, comp_vlue);
 
             return new_front;
         }
@@ -261,13 +261,13 @@ void gameMain(float deltatime) {
 		static std::shared_ptr<DerivedType> SortAscending(shared node, const std::function<CompType(shared)>& get_comp_vlue) {
             shared front = node->getFront() ;
             shared back = node->getBack() ;
-            return std::static_pointer_cast<DerivedType>(sort_ascending( front, front, back, get_comp_vlue) );
+            return std::static_pointer_cast<DerivedType>(Sort_ascending( front, front, back, get_comp_vlue) );
 		}
         template< class DerivedType, class CompType >
         static std::shared_ptr<DerivedType> SortDescending(shared node, const std::function<CompType(shared)>& get_comp_vlue) {
             shared front = node->getFront();
             shared back = node->getBack();
-            return std::static_pointer_cast<DerivedType>(sort_descending( front, front, back, get_comp_vlue));
+            return std::static_pointer_cast<DerivedType>(Sort_descending( front, front, back, get_comp_vlue));
         }
 
     };

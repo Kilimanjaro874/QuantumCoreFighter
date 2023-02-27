@@ -52,7 +52,7 @@ namespace tnl {
 	// ret....[ 衝突している : true ]   [ 衝突していない : false ]
 	inline bool IsIntersectRect(const tnl::Vector3& a, const int a_rect_size_w, const int a_rect_size_h,
 		const tnl::Vector3& b, const int b_rect_size_w, const int b_rect_size_h) {
-		return IsIntersectRect(a.x, a.y, a_rect_size_w, a_rect_size_h, b.x, b.y, b_rect_size_w, b_rect_size_h);
+		return IsIntersectRect((int)a.x, (int)a.y, a_rect_size_w, a_rect_size_h, (int)b.x, (int)b.y, b_rect_size_w, b_rect_size_h);
 	}
  
 	//-----------------------------------------------------------------------------------------------------
@@ -77,7 +77,6 @@ namespace tnl {
 
 
 	//----------------------------------------------------------------------------------------------
-	// name... isIntersectLine2D
 	// work... 2D上の線分の判定
 	// arg1... 線分Aの始点
 	// arg2... 線分Aの終点
@@ -88,7 +87,6 @@ namespace tnl {
 	bool IsIntersectLine2D(const Vector3& p1, const Vector3& p2, const Vector3& p3, const Vector3& p4);
 
 	//----------------------------------------------------------------------------------------------
-	// name... isIntersectLineTriangle2D
 	// work... 三角形と線分の衝突判定
 	// arg1-3. 三角形を構成する頂点
 	// arg5-5. 始点と終点 
@@ -107,7 +105,6 @@ namespace tnl {
 	bool IsIntersectSphere(const tnl::Vector3& a, float a_radius, const tnl::Vector3& b, float b_radius);
 
 	//----------------------------------------------------------------------------------------------
-	// name... isIntersectLinePlane
 	// work... 線分と平面の衝突判定
 	// arg1... 線分の始点
 	// arg2... 線分の終点
@@ -118,10 +115,9 @@ namespace tnl {
 	// tips... 衝突していない場合 arg5 で渡した引数は変化なし
 	bool IsIntersectLinePlane(const tnl::Vector3 &line_start, const tnl::Vector3 &line_end,
 		const tnl::Vector3 &plane_pos, const tnl::Vector3 &plane_normal,
-		const tnl::Vector3 &intersect_position = tnl::Vector3(0, 0, 0));
+		tnl::Vector3* intersect_position = nullptr);
 
 	//----------------------------------------------------------------------------------------------
-	// name... isIntersectTrianglePoint
 	// work... 三角形と点の判定
 	// arg1-3. 三角形の頂点座標
 	// ret.... [衝突している : true] [衝突していない : false]
@@ -129,7 +125,6 @@ namespace tnl {
 	bool IsIntersectTrianglePoint(const Vector3& v1, const Vector3& v2, const Vector3& v3, const Vector3& p);
 
 	//----------------------------------------------------------------------------------------------
-	// name... isIntersectLineTriangle
 	// work... 三角形と線分の衝突判定
 	// arg1-3. 三角形を構成する頂点
 	// arg2-4. 始点と終点 
@@ -138,7 +133,6 @@ namespace tnl {
 	bool IsIntersectLineTriangle(const Vector3& v1, const Vector3& v2, const Vector3& v3, const Vector3& s, const Vector3& e);
 
 	//----------------------------------------------------------------------------------------------
-	// name... isIntersectRayOBB
 	// work... レイとOBB の衝突判定
 	// arg1... レイ上の座標 ( 線分なら始点 )
 	// arg2... レイの方向ベクトル
@@ -150,7 +144,6 @@ namespace tnl {
 	bool IsIntersectRayOBB( const Vector3& pos, const Vector3& dir, const Vector3& aabb_max, const Vector3& aabb_min, const Matrix& obb_rot, Vector3& intersect_pos );
 
 	//----------------------------------------------------------------------------------------------
-	// name... isIntersectLineOBB
 	// work... 線分とOBB の衝突判定
 	bool IsIntersectLineOBB(const Vector3& s, const Vector3& e, const Vector3& aabb_max, const Vector3& aabb_min, const Matrix& obb_rot, Vector3& intersect_pos );
 

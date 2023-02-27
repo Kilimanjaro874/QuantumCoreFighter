@@ -12,6 +12,9 @@
 namespace tnl {
 	HWND Input::hwnd_;
 	HINSTANCE Input::hinstance_;
+	HDC Input::hdc_;
+	uint32_t Input::window_h_;
+	uint32_t Input::window_w_;
 	LPDIRECTINPUT8 g_input = nullptr;
 	LPDIRECTINPUTDEVICE8 Input::key_ = nullptr;
 	LPDIRECTINPUTDEVICE8 Input::mouse_;
@@ -242,9 +245,13 @@ namespace tnl {
 		1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 	};
 
-	void Input::Initialize(HINSTANCE hinstance, HWND hwnd) {
+	void Input::Initialize(HINSTANCE hinstance, HWND hwnd, HDC hdc, uint32_t window_w, uint32_t window_h) {
 		hwnd_ = hwnd;
 		hinstance_ = hinstance;
+		hdc_ = hdc;
+		window_w_ = window_w;
+		window_h_ = window_h;
+
 		HRESULT hr = S_OK;
 		memset(keys_, 0, sizeof(keys_));
 
@@ -500,12 +507,19 @@ namespace tnl {
 		return { float(joy_state_.lZ) / 1000.0f, float(joy_state_.lRz) / 1000.0f, 0 };
 	}
 
-
-	POINT Input::GetMousePosition() {
+	tnl::Vector3 Input::GetMousePosition() {
 		POINT pt;
+		RECT rec;
+		GetClientRect(hwnd_, &rec);
+		float rw = (float)window_w_ / (float)rec.right;
+		float rh = (float)window_h_ / (float)rec.bottom;
+
 		GetCursorPos(&pt);
 		ScreenToClient(hwnd_, &pt);
-		return pt;
+
+		pt.x = (LONG)((float)pt.x * rw);
+		pt.y = (LONG)((float)pt.y * rh);
+		return {(float)pt.x, (float)pt.y, 0};
 	}
 
 	int32_t Input::GetMouseWheel() {

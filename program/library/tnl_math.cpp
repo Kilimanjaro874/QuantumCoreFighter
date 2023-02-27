@@ -90,6 +90,13 @@ namespace tnl {
 	}
 
 
+    tnl::Vector3 GetNearestPointPlane(const tnl::Vector3& v, const tnl::Vector3& pn, const tnl::Vector3& pv) {
+        float d = tnl::Vector3::Dot(pn, pv);
+        float t = tnl::Vector3::Dot(pn, v) - d;
+        return v - (pn * t);
+    }
+
+
     Vector3 BezierSpline(const Vector3& _a1, const Vector3& _a2, const Vector3& _a3, const Vector3& _a4, float t) {
 
         t = (1.0f < t) ? 1.0f : t;
@@ -186,7 +193,7 @@ namespace tnl {
         section_lengths_.resize(points.size());
         std::copy(points.begin(), points.end(), points_.begin());
 
-        for (int i = 1; i < points_.size(); ++i) {
+        for (size_t i = 1; i < points_.size(); ++i) {
             section_lengths_[i] = (points_[i - 1] - points_[i]).length();
             all_length_ += section_lengths_[i];
             section_lengths_[i] += section_lengths_[i - 1];
@@ -200,14 +207,14 @@ namespace tnl {
     }
 
     float PointsLerp::getLengthPoint(int pn) const noexcept {
-        if (pn < 0 || pn >= section_lengths_.size()) return 0;
+        if (pn < 0 || pn >= (int)section_lengths_.size()) return 0;
         return section_lengths_[pn];
     }
 
     int PointsLerp::getPrevPoint(float t) const noexcept {
         float d = getLengthRate(t);
         float c = 0.0f;
-        for (int i = 0; i < section_lengths_.size(); ++i) {
+        for (size_t i = 0; i < section_lengths_.size(); ++i) {
             if (d >= section_lengths_[i]) continue;
             return i - 1;
         }

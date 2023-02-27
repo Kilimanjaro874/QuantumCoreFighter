@@ -56,11 +56,12 @@ namespace tnl{
 	// char から wchar への変換
 	void ToWChara(wchar_t* wstrDest, const char* strSrc, int length);
 	void ToWChara(wchar_t* wstrDest, uint32_t wstr_lenght, const std::string& src);
+	wchar_t ToOnceWChara(const char* strSrc);
 
 
 	//----------------------------------------------------------------------------------------------
 	// デバッグコンソールへの出力
-	inline void DebugTrace(const char* _str, ...);
+	void DebugTrace(const char* _str, ...);
 
 
 	//----------------------------------------------------------------------------------------------
